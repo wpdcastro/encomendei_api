@@ -15,6 +15,12 @@ class CreateSellItensTable extends Migration
     {
         Schema::create('sell_itens', function (Blueprint $table) {
             $table->id();
+            $table->integer('sell_id');
+            $table->foreign('sell_id')->references('id')->on('sells');
+            $table->integer('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('quantity');
+            $table->float('unit_price');
             $table->timestamps();
         });
     }
