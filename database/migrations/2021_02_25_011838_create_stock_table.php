@@ -14,11 +14,11 @@ class CreateStockTable extends Migration
     public function up()
     {
         Schema::create('stock', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product_id');
+            $table->increments('id');
+            $table->integer('product_id')->unsigned()->index();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->integer('warehouse_id');
-            $table->foreign('warehouse_id')->references('id')->on('warehouse');
+            $table->integer('warehouse_id')->unsigned()->index();
+            $table->foreign('warehouse_id')->references('id')->on('warehouses');
             $table->timestamps();
         });
     }
