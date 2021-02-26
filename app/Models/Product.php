@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class Product extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable, HasFactory;
 
@@ -19,12 +19,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'id', 'name', 'description', 'price', 'category_id'
     ];
 
     public static $rules = [
         "name" => "required|max:120",
-        "email" => "required|email|max:60",
+        "description" => "required|max:240",
+        "category_id" => "required|product_id|exists:categories,id"
     ];
 
     /**

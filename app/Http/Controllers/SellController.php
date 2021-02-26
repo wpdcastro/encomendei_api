@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Product;
+use Illuminate\Support\Facades\DB;
 
 class SellController extends BaseController
 {
@@ -20,9 +21,9 @@ class SellController extends BaseController
         return $this->sell->paginate(10);
     }
 
-    public function show ($product) {
+    public function show ($sellId) {
         
-        return $this->sell->findOrFail($product);
+        return $this->sell->findOrFail($sellId);
     }
 
     public function store (Request $request) {
@@ -31,32 +32,32 @@ class SellController extends BaseController
 
         return response()
             ->json(['data' => [ 
-                'message' => 'Success in create Product']
+                'message' => 'Success in create Sell']
             ]); 
     }
 
-    public function update ($sell) {
+    public function update ($sellId) {
 
-        $productInfo = $this->sell->find($sell);
-        $productInfo->update($request->all());
+        $sell = $this->sell->find($sellId);
+        $sell->update($request->all());
 
         return response()->json(
             [
                 'data' => [ 
-                    'message' => 'Success in update Product'
+                    'message' => 'Success in update Sell'
                 ]
             ]
         );
     }
 
-    public function destroy ($sell) {
+    public function destroy ($sellId) {
 
-        $productInfo = $this->sell->find($sell);
-        $productInfo->delete();
+        $sell = $this->sell->find($sellId);
+        $sell->delete();
 
         return response()
-            ->json(['data' => [ 
-                    'message' => 'Success in remove Product']
-                ]);
+            ->json(['data' => [
+                'message' => 'Success in remove Sell']
+            ]);
     }
 }

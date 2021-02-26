@@ -17,7 +17,14 @@ class ProductController extends BaseController
 
     public function index () {
 
-        return $this->product->paginate(10);
+        // return $this->product->paginate(10);
+        
+        $productList = DB::table('products')
+            ->select('products*', DB::raw('SUM(stocks.quantity) As stock'))
+            ->leftJoin('stocks', 'stocks.product_id', '=', 'products.id') 
+            ->get();
+    
+        return $productList;
     }
 
     public function show ($product) {
