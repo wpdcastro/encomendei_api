@@ -33,6 +33,14 @@ $router->group(['prefix' => 'sell'], function () use($router) {
     $router->delete('/{$sell}', 'SellController@destroy');
 });
 
+$router->group(['prefix' => 'warehouse'], function () use($router) { 
+    $router->get('/', 'WarehouseController@index');
+    $router->get('/{$sell}', 'SellController@show');
+    $router->post('/', 'SellController@store');
+    $router->put('/{$sell}', 'SellController@store');
+    $router->delete('/{$sell}', 'SellController@destroy');
+});
+
 $router->post(
     'auth/login', 
     [
@@ -40,12 +48,23 @@ $router->post(
     ]
 );
 
-$router->group(
-    ['middleware' => 'jwt.auth'], 
-    function() use ($router) {
-        $router->get('users', function() {
-            $users = \App\User::all();
-            return response()->json($users);
-        });
-    }
-);
+$router->group(['prefix' => 'users'], function() use ($router) {
+    $router->group(
+        ['middleware' => 'jwt.auth'],
+        function() use ($router) {
+            $router->get('users', function() {
+                $users = \App\User::all();
+                return response()->json($users);
+            });
+        }
+    );
+});
+
+$router->group(['prefix' => 'productV1'], function() use ($router) {
+    $router->group(
+        ['middleware' => 'jwt.auth'],
+        function() use ($router) {
+            $router->get('/', 'WarehouseController@index');
+        }
+    );
+});

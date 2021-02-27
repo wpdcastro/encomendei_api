@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use App\Product;
+use App\Models\Product;
 
 class ProductController extends BaseController
 {
@@ -20,11 +21,18 @@ class ProductController extends BaseController
         // return $this->product->paginate(10);
         
         $productList = DB::table('products')
-            ->select('products*', DB::raw('SUM(stocks.quantity) As stock'))
-            ->leftJoin('stocks', 'stocks.product_id', '=', 'products.id') 
-            ->get();
-    
-        return $productList;
+            ->select('products.*', DB::raw('SUM(stock.quantity) As stock'))
+            ->leftJoin('stock', 'stock.product_id', '=', 'products.id') 
+            ->groupBy('products.id')
+            ->paginate(10);
+        
+        $response = [
+            'data' => $productList,
+            'total' => count($productList),
+            'status' => 200    
+        ];
+
+        return $response;
     }
 
     public function show ($product) {

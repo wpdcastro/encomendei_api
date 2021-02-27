@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use App\Product;
+use App\Model\Warehouse;
 
 class WarehouseController extends BaseController
 {

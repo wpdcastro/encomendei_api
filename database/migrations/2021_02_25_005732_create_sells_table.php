@@ -20,6 +20,7 @@ class CreateSellsTable extends Migration
             $table->integer('order_id')->unsigned()->index();
             $table->foreign('order_id')->references('id')->on('orders');
             $table->float('total');
+            $table->text("payment_form");
             $table->timestamps();
         });
     }
