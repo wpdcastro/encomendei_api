@@ -24,7 +24,7 @@ class ProductController extends BaseController
             ->select('products.*', DB::raw('SUM(stock.quantity) As stock'))
             ->leftJoin('stock', 'stock.product_id', '=', 'products.id') 
             ->groupBy('products.id')
-            ->paginate(10);
+            ->paginate(25);
         
         $response = [
             'data' => $productList,
